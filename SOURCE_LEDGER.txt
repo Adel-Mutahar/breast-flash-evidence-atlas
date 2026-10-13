@@ -1,0 +1,4 @@
+Source ledger used for this release:
+Supplementary_Material_E2(5).xlsx
+Final 58-report evidence ledger supplied October 12, 2026.
+The site dataset was checked against this ledger; no study-level data differences were found relative to the immediately prior final ledger.

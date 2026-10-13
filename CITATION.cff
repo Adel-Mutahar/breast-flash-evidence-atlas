@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this interactive evidence atlas, please cite the associated scoping review and this web resource."
+title: "Breast FLASH Evidence Atlas"
+type: software
+version: 1.0
+date-released: 2026-10-12
+authors:
+  - family-names: Mutahar
+    given-names: Adel Zaid I.
+  - family-names: Thakur
+    given-names: Banita
+  - family-names: Corvino
+    given-names: Angela
+  - family-names: Whitmore
+    given-names: Lucy
+  - family-names: Loo
+    given-names: Billy W. Jr
+  - family-names: Dirbas
+    given-names: Frederick M.
+keywords:
+  - FLASH radiotherapy
+  - breast cancer
+  - thoracic normal tissue
+  - scoping review
+  - evidence map

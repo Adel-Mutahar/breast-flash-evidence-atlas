@@ -1,0 +1,5 @@
+Recommended GitHub repository name:
+breast-flash-evidence-atlas
+
+GitHub Pages URL pattern:
+https://<YOUR-GITHUB-USERNAME>.github.io/breast-flash-evidence-atlas/

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Interactive evidence atlas for the 58-report scoping review of FLASH radiotherapy in breast cancer and breast-relevant thoracic organs." />
+  <meta name="robots" content="index,follow" />
+  <meta name="citation_title" content="Breast FLASH Evidence Atlas" />
+  <meta name="citation_author" content="Adel Zaid I. Mutahar" />
+  <meta name="citation_author" content="Banita Thakur" />
+  <meta name="citation_author" content="Angela Corvino" />
+  <meta name="citation_author" content="Lucy Whitmore" />
+  <meta name="citation_author" content="Billy W. Loo Jr" />
+  <meta name="citation_author" content="Frederick M. Dirbas" />
+  <meta name="citation_date" content="2026-10-12" />
+  <meta property="og:title" content="Breast FLASH Evidence Atlas" />
+  <meta property="og:description" content="Search and explore the 58-report evidence base for FLASH radiotherapy in breast cancer and breast-relevant organs." />
+  <meta property="og:type" content="website" />
+  <title>Breast FLASH Evidence Atlas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">F</div>
+      <div>
+        <div class="brand">Breast FLASH Evidence Atlas</div>
+        <div class="brand-sub">Interactive companion to the breast-focused FLASH scoping review</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="ghost" id="shareBtn">Copy filtered link</button>
+      <a class="ghost linkbtn" href="data/Breast_FLASH_Evidence_Atlas_58_Report_Ledger.csv" download>Full CSV</a>
+      <button class="primary" id="downloadBtn">Download filtered CSV</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Evidence map • search through August 25, 2026</span>
+        <h1>FLASH radiotherapy in breast cancer and breast-relevant organs</h1>
+        <p class="lede">Explore the 58-report evidence base by biological domain, modality, comparator dose-rate stratum, study design, outcome direction, and year. The atlas preserves the review's study-level denominator rules while making the evidence directly searchable and citable.</p>
+        <div class="hero-note"><strong>Important:</strong> report-level counts and outcome denominators are not interchangeable. Linked reports were adjudicated at the outcome level to avoid double counting reused animals, tissues, images, or public datasets.</div>
+      </div>
+      <div>
+        <div class="hero-card" id="heroStats"></div>
+        <div class="resource-links">
+          <a href="data/Breast_FLASH_Evidence_Atlas_58_Report_Ledger.csv" download>Download full CSV</a>
+          <a href="data/Supplementary_Material_E2_58_Report_Evidence_Ledger.xlsx" download>Download Supplementary Material E2</a>
+          <a href="DATA_DICTIONARY.md" target="_blank" rel="noopener">Data dictionary</a>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Evidence atlas sections">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="explorer">Study Explorer</button>
+      <button class="tab" data-tab="map">Evidence Map</button>
+      <button class="tab" data-tab="citations">Citation Hub</button>
+      <button class="tab" data-tab="methods">Methods & Denominators</button>
+    </nav>
+
+    <section id="overview" class="panel active">
+      <div class="section-heading">
+        <div><span class="eyebrow">At a glance</span><h2>Evidence landscape</h2></div>
+        <p>These summary counts follow the final review definitions. Domains overlap because one report may contribute to more than one breast-relevant outcome.</p>
+      </div>
+      <div class="metric-grid" id="overviewMetrics"></div>
+      <div class="grid-2">
+        <article class="card"><div class="card-head"><div><h3>Evidence depth by domain</h3><p>Unique reports represented in each review domain.</p></div></div><div id="domainBars" class="chart-list"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Modality distribution</h3><p>Primary modality grouping across the 58 reports.</p></div></div><div id="modalityBars" class="chart-list"></div></article>
+      </div>
+      <div class="grid-2">
+        <article class="card"><div class="card-head"><div><h3>Publication growth</h3><p>Rapid expansion of the breast-relevant evidence base.</p></div></div><div id="timelineChart" class="timeline"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Direct comparator dose-rate strata</h3><p>Among the 45 reports with an eligible direct biological FLASH/UHDR-versus-author-defined conventional/standard comparison.</p></div></div><div id="comparatorBars" class="chart-list"></div></article>
+      </div>
+      <article class="card takehome">
+        <div class="card-head"><div><h3>What the review can and cannot say</h3><p>A compact interpretation guardrail for readers.</p></div></div>
+        <div class="takehome-grid">
+          <div><span class="good">Supported</span><strong>Tumor response was preserved/comparable in all 8 classifiable in-vivo breast/mammary comparisons.</strong><p>This is a direction-of-effect synthesis, not a formal equivalence meta-analysis.</p></div>
+          <div><span class="good">Supported</span><strong>Thoracic skin was directionally consistent in the directly eligible anatomical subset.</strong><p>Four classifiable reports favored FLASH; non-thoracic skin experiments were not counted in this denominator.</p></div>
+          <div><span class="caution">Heterogeneous</span><strong>Lung and thoracic immune/hematologic evidence were not uniformly favorable.</strong><p>Endpoint, timing, model, modality, dose, fractionation, and comparator conditions differ materially across studies.</p></div>
+          <div><span class="caution">Do not overgeneralize</span><strong>No single dose-rate number defines the biological FLASH effect across this review.</strong><p>Comparator rate is retained as an interpretive stratum rather than used as an eligibility cutoff.</p></div>
+        </div>
+      </article>
+    </section>
+
+    <section id="explorer" class="panel">
+      <div class="section-heading"><div><span class="eyebrow">Search the ledger</span><h2>Study Explorer</h2></div><p>Every row is one of the 58 publication-specific reports in Supplementary Material E2.</p></div>
+      <div class="filter-card">
+        <div class="filters">
+          <label class="search-field"><span>Search</span><input id="searchInput" type="search" placeholder="Author, DOI, model, endpoint, result…" /></label>
+          <label><span>Domain</span><select id="domainFilter"><option value="">All domains</option></select></label>
+          <label><span>Modality</span><select id="modalityFilter"><option value="">All modalities</option></select></label>
+          <label><span>Comparator</span><select id="comparatorFilter"><option value="">All comparator strata</option></select></label>
+          <label><span>Design</span><select id="designFilter"><option value="">All designs</option></select></label>
+          <label><span>Direction</span><select id="directionFilter"><option value="">Any direction</option></select></label>
+          <label><span>Year</span><select id="yearFilter"><option value="">All years</option></select></label>
+        </div>
+        <div class="filter-footer"><div id="filterCount"></div><button class="ghost" id="clearFilters">Clear filters</button></div>
+      </div>
+      <div class="table-wrap">
+        <table class="study-table">
+          <thead><tr><th>Study</th><th>Year</th><th>Domain(s)</th><th>Modality</th><th>Comparator</th><th>Outcome direction</th><th></th></tr></thead>
+          <tbody id="studyRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="map" class="panel">
+      <div class="section-heading"><div><span class="eyebrow">Depth + direction</span><h2>Evidence Map</h2></div><p>Separates evidence depth from the direction-of-effect denominator so a small 4/4 domain is not visually equated with a much larger 22/29 domain.</p></div>
+      <article class="card">
+        <div class="card-head"><div><h3>Direction of evidence among classifiable comparisons</h3><p>Study-level counts from the final synthesis; Wilson intervals describe uncertainty around the supportive proportion and are not pooled treatment-effect confidence intervals.</p></div></div>
+        <div id="directionMatrix" class="direction-matrix"></div>
+      </article>
+      <div class="grid-2">
+        <article class="card"><div class="card-head"><div><h3>Domain × modality matrix</h3><p>Counts are computed from the 58-report ledger and may overlap across domains.</p></div></div><div id="domainModalityMatrix" class="matrix"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Evidence depth lens</h3><p>Useful for seeing where directionally consistent findings rest on small versus large evidence bases.</p></div></div><div id="depthCards" class="depth-list"></div></article>
+      </div>
+    </section>
+
+    <section id="citations" class="panel">
+      <div class="section-heading"><div><span class="eyebrow">CiteHub</span><h2>Citation Hub</h2></div><p>Search the 58 references, open the DOI, or copy a full citation directly.</p></div>
+      <div class="citation-search"><input id="citationSearch" type="search" placeholder="Search author, year, title, DOI…" /><span id="citationCount"></span></div>
+      <div id="citationList" class="citation-list"></div>
+      <article class="card resource-citation">
+        <h3>Suggested citation for this interactive resource</h3>
+        <p id="resourceCitation"></p>
+        <button class="ghost" id="copyResourceCitation">Copy suggested citation</button>
+      </article>
+    </section>
+
+    <section id="methods" class="panel">
+      <div class="section-heading"><div><span class="eyebrow">How to read the atlas</span><h2>Methods & Denominators</h2></div><p>This page mirrors the final review's eligibility and evidence-handling rules rather than inventing a new evidence framework.</p></div>
+      <div class="grid-2">
+        <article class="card"><h3>Review flow</h3><div class="flow" id="prismaFlow"></div></article>
+        <article class="card"><h3>Core scope</h3>
+          <dl class="rule-list">
+            <div><dt>Publication status</dt><dd>English-language, peer-reviewed primary research published January 1, 2014 through August 25, 2026.</dd></div>
+            <div><dt>FLASH/UHDR boundary</dt><dd>Primary-study-defined FLASH/UHDR with prespecified physical boundary of instantaneous dose rate ≥40 Gy/s or average dose rate ≥10 Gy/s.</dd></div>
+            <div><dt>Breast/mammary evidence</dt><dd>In vitro, 3D/ex vivo, and in vivo breast or mammary tumor models with eligible FLASH/UHDR exposure.</dd></div>
+            <div><dt>Thoracic normal tissue</dt><dd>Lung, heart/cardiac tissue, thoracic/hemithoracic/breast/chest-wall skin, and thoracic immune/hematologic outcomes relevant to breast radiotherapy.</dd></div>
+          </dl>
+        </article>
+      </div>
+      <div class="grid-2">
+        <article class="card"><h3>Comparator handling</h3><p>Author-described conventional, standard, conventional-dose-rate, or clinically standard irradiation was retained regardless of numerical rate. Comparator dose rate was not an eligibility threshold; direct biological comparisons were stratified as ≤0.2 Gy/s, &gt;0.2 Gy/s, mixed, or not numerically resolved.</p></article>
+        <article class="card"><h3>Outcome independence</h3><p>Linked reports could be retained for distinct eligible outcomes, time points, or newly generated experiments. Reused animals, tissues, images, or public datasets were not counted as new independent evidence for the same outcome.</p></article>
+      </div>
+      <article class="card warning-card"><h3>Skin denominator note</h3><p>The formal skin synthesis is intentionally restricted to thoracic, hemithoracic, breast, chest-wall, or overlying thoracic skin. Hindlimb, foot, flank, dorsal, ear, and other non-thoracic skin studies can inform broader radiobiology but do not enter the 4-report thoracic-skin denominator.</p></article>
+      <article class="card provenance-card"><h3>Data provenance and version</h3><p><strong>Version 1.0 · October 12, 2026.</strong> The atlas is generated directly from the final 58-report Supplementary Material E2 used for the review search through August 25, 2026. It is a visualization and navigation layer, not a separate evidence source. If any discrepancy is identified, the manuscript and Supplementary Material E2 is authoritative.</p><p>No analytics, cookies, account login, or user-tracking code is included in this site.</p></article>
+    </section>
+  </main>
+
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <button class="drawer-close" id="drawerClose" aria-label="Close">×</button>
+      <div id="drawerContent"></div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer><div><strong>Breast FLASH Evidence Atlas</strong> · Version 1.0 · Released October 12, 2026 · Search through August 25, 2026</div><div>Built directly from the final 58-report Supplementary Material E2 · No analytics or tracking.</div></footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
