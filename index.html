@@ -55,6 +55,7 @@
 
     <nav class="tabs" aria-label="Evidence atlas sections">
       <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="dashboard">Research Dashboard</button>
       <button class="tab" data-tab="explorer">Study Explorer</button>
       <button class="tab" data-tab="map">Evidence Map</button>
       <button class="tab" data-tab="citations">Citation Hub</button>
@@ -75,6 +76,14 @@
         <article class="card"><div class="card-head"><div><h3>Publication growth</h3><p>Rapid expansion of the breast-relevant evidence base.</p></div></div><div id="timelineChart" class="timeline"></div></article>
         <article class="card"><div class="card-head"><div><h3>Direct comparator dose-rate strata</h3><p>Among the 45 reports with an eligible direct biological FLASH/UHDR-versus-author-defined conventional/standard comparison.</p></div></div><div id="comparatorBars" class="chart-list"></div></article>
       </div>
+      <article class="card dashboard-callout">
+        <div>
+          <span class="eyebrow">Visual synthesis</span>
+          <h3>Explore the research dashboard</h3>
+          <p>See publication growth, modality composition, comparator strata, the breast-tumor evidence pathway, normal-tissue direction, and a clickable thoracic-organ explorer.</p>
+        </div>
+        <button class="primary" id="openDashboard">Open Research Dashboard →</button>
+      </article>
       <article class="card takehome">
         <div class="card-head"><div><h3>What the review can and cannot say</h3><p>A compact interpretation guardrail for readers.</p></div></div>
         <div class="takehome-grid">
@@ -84,6 +93,66 @@
           <div><span class="caution">Do not overgeneralize</span><strong>No single dose-rate number defines the biological FLASH effect across this review.</strong><p>Comparator rate is retained as an interpretive stratum rather than used as an eligibility cutoff.</p></div>
         </div>
       </article>
+    </section>
+
+    <section id="dashboard" class="panel">
+      <div class="section-heading">
+        <div><span class="eyebrow">Visual synthesis · Version 1.0</span><h2>Research Dashboard</h2></div>
+        <p>Graph-rich views of the final 58-report evidence base. Counts use the manuscript-aligned definitions and the normalized domain labels in Supplementary Material E2.</p>
+      </div>
+      <div class="dash-kpis">
+        <div><strong>58</strong><span>Eligible reports</span></div>
+        <div><strong>35</strong><span>Published 2025–2026</span></div>
+        <div><strong>45</strong><span>Direct biological comparator reports</span></div>
+        <div><strong>8/8</strong><span>Classifiable in-vivo breast tumor comparisons preserved/comparable</span></div>
+      </div>
+      <div class="grid-2 dash-grid">
+        <article class="card"><div class="card-head"><div><h3>Publication activity, 2014–2026</h3><p>Included reports by publication year.</p></div></div><div id="dashYearChart" class="dash-year-chart" role="img" aria-label="Included reports by publication year"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Radiation modality distribution</h3><p>Primary modality grouping across all 58 reports.</p></div></div><div id="dashModality" class="dash-donut-row"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Comparator dose-rate strata</h3><p>Among the 45 eligible direct biological FLASH/UHDR comparisons.</p></div></div><div id="dashComparator" class="dash-comp"></div></article>
+        <article class="card"><div class="card-head"><div><h3>Breast tumor evidence pathway</h3><p>Nested evidence streams used in the manuscript synthesis.</p></div></div>
+          <div class="dash-funnel">
+            <div><b>18</b><span>Breast/mammary reports</span></div>
+            <div><b>12</b><span>Including in-vivo studies</span></div>
+            <div><b>8</b><span>Clean matched in-vivo comparisons</span></div>
+            <div class="positive"><b>8/8</b><span>Preserved/comparable tumor response</span></div>
+          </div>
+          <p class="dash-note">Preserved/comparable response is a direction-of-effect synthesis, not a formal equivalence or noninferiority analysis.</p>
+        </article>
+      </div>
+      <article class="card dash-wide">
+        <div class="card-head"><div><h3>Normal-tissue outcome direction</h3><p>Each row uses its own classifiable denominator.</p></div></div>
+        <div id="dashStacked" class="dash-stack-chart"></div>
+        <div class="dash-legend"><span><i class="fav"></i>Favorable</span><span><i class="mix"></i>Mixed</span><span><i class="neu"></i>Neutral</span><span><i class="unf"></i>Unfavorable</span></div>
+        <p class="dash-note">Report-level directional synthesis; nonclassifiable observations are excluded from these denominators.</p>
+      </article>
+      <article class="card dash-wide">
+        <div class="card-head"><div><h3>Thoracic organ explorer</h3><p>Select a tissue domain, then jump directly to its filtered study records.</p></div></div>
+        <div class="dash-organ-layout">
+          <div class="dash-organ-graphic">
+            <svg aria-label="Conceptual torso with clickable breast, skin, lungs and heart domains" role="img" viewBox="0 0 390 410">
+              <path d="M152 38 Q195 15 238 38 L255 70 Q301 76 329 111 Q359 152 343 218 L327 354 Q195 394 63 354 L47 218 Q31 152 61 111 Q89 76 135 70Z" fill="#eef6f5" stroke="#aaccca" stroke-width="3"></path>
+              <path d="M189 104 L189 287" stroke="#d0ddde" stroke-linecap="round" stroke-width="10"></path>
+              <g class="dash-organ-node" data-dash-domain="Lung" role="button" tabindex="0" aria-label="Explore lung studies"><path d="M173 122 Q122 94 95 153 Q71 235 102 277 Q135 301 173 257Z" fill="#70b7d2" stroke="#2a7796" stroke-width="2"></path><path d="M207 122 Q259 94 287 153 Q312 235 275 277 Q242 301 207 257Z" fill="#70b7d2" stroke="#2a7796" stroke-width="2"></path><text x="124" y="203">LUNG</text><text x="232" y="203">LUNG</text></g>
+              <g class="dash-organ-node" data-dash-domain="Heart/cardiac" role="button" tabindex="0" aria-label="Explore cardiac studies"><path d="M203 201 Q178 169 165 205 Q158 233 201 271 Q248 233 238 205 Q228 173 203 201" fill="#ec8e94" stroke="#b34b62" stroke-width="2"></path><text x="201" y="235">HEART</text></g>
+              <g class="dash-organ-node" data-dash-domain="Breast/mammary tumor" role="button" tabindex="0" aria-label="Explore breast and mammary studies"><ellipse cx="123" cy="290" fill="#e7b2a6" fill-opacity=".88" rx="47" ry="38" stroke="#b67478" stroke-width="2"></ellipse><ellipse cx="268" cy="290" fill="#e7b2a6" fill-opacity=".88" rx="47" ry="38" stroke="#b67478" stroke-width="2"></ellipse><text x="123" y="296">BREAST</text><text x="268" y="296">BREAST</text></g>
+              <g class="dash-organ-node" data-dash-domain="Thoracic skin" role="button" tabindex="0" aria-label="Explore thoracic skin studies"><path d="M87 120 Q60 167 66 239" fill="none" stroke="#db9480" stroke-linecap="round" stroke-width="13"></path><text x="68" y="104">SKIN</text></g>
+            </svg>
+            <p class="dash-note">Conceptual illustration only; not anatomical or dosimetric scale.</p>
+          </div>
+          <div class="dash-organ-details">
+            <span class="eyebrow">Select a domain</span>
+            <h3 id="dashOrganTitle">Lung</h3>
+            <div class="dash-organ-summary" id="dashOrganSummary"></div>
+            <p id="dashOrganDescription"></p>
+            <button class="primary" id="dashOrganExplore">Explore lung records →</button>
+            <div class="dash-organ-links">
+              <button data-dash-domain="Lung">Lung</button><button data-dash-domain="Breast/mammary tumor">Breast/mammary</button><button data-dash-domain="Thoracic skin">Thoracic skin</button><button data-dash-domain="Heart/cardiac">Heart/cardiac</button><button data-dash-domain="Thoracic immune/hematologic">Immune/hematologic</button><button data-dash-domain="Planning/dosimetry">Planning/dosimetry</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="card dash-guardrail"><strong>Interpretation guardrail:</strong> visual prominence does not imply certainty of evidence. Evidence depth and outcome direction should be interpreted together; the Evidence Map tab provides the formal depth-versus-direction view.</article>
     </section>
 
     <section id="explorer" class="panel">

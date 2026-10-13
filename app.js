@@ -77,6 +77,38 @@ function openDrawer(id){
 }
 function closeDrawer(){const d=$('#detailDrawer');d.classList.remove('open');d.setAttribute('aria-hidden','true')}
 
+
+function renderDashboard(){
+  const years={}; studies.forEach(s=>years[s.year]=(years[s.year]||0)+1);
+  const yr=Array.from({length:13},(_,i)=>2014+i), maxYear=Math.max(...yr.map(y=>years[y]||0),1);
+  $('#dashYearChart').innerHTML=yr.map(y=>`<div class="dash-year-col" title="${y}: ${years[y]||0} report${(years[y]||0)===1?'':'s'}"><b>${years[y]||''}</b><div class="dash-year-bar" style="height:${Math.max(2,(years[y]||0)/maxYear*165)}px"></div><small>${y}</small></div>`).join('');
+
+  const mod=[['Electron',summary.modalityCounts['Electron']||0,'#187a94'],['Proton',summary.modalityCounts['Proton']||0,'#18a69b'],['Photon/X-ray',summary.modalityCounts['Photon/X-ray']||0,'#efaf56'],['Other', (summary.modalityCounts['Carbon ion']||0)+(summary.modalityCounts['Helium ion']||0)+(summary.modalityCounts['Other/mixed']||0),'#a0b5bf']];
+  let offset=0; const stops=mod.map(([name,n,color])=>{const start=offset;offset+=n/summary.reports*100;return `${color} ${start}% ${offset}%`});
+  $('#dashModality').innerHTML=`<div class="dash-donut" style="background:conic-gradient(${stops.join(',')})"><div class="dash-donut-inner">${summary.reports}<small>reports</small></div></div><div class="dash-mod-list">${mod.map(([name,n,color])=>`<div><i style="background:${color}"></i><span>${esc(name)}</span><b>${n} / ${summary.reports}</b></div>`).join('')}</div>`;
+
+  $('#dashComparator').innerHTML=summary.comparatorSummary.map(x=>`<div class="dash-comp-row"><b>${esc(x.label)}</b><div class="dash-comp-track"><div class="dash-comp-fill" style="width:${x.n/summary.directComparatorReports*100}%"></div></div><b>${x.n}</b></div>`).join('');
+
+  const normalDomains=['Lung','Thoracic skin','Heart/cardiac','Thoracic immune/hematologic'];
+  const colors=['#247a55','#c98b2b','#8293a1','#aa4141'];
+  $('#dashStacked').innerHTML=normalDomains.map(name=>{const d=summary.evidenceDepth.find(x=>x.domain===name); if(!d||!d.classifiable)return ''; const counts=[d.favorable,d.mixed,d.neutral,d.unfavorable]; return `<div class="dash-stack-row"><b>${esc(name)}</b><div class="dash-stackbar">${counts.map((v,i)=>v?`<span title="${v} ${['favorable','mixed','neutral','unfavorable'][i]} of ${d.classifiable}" style="background:${colors[i]};width:${v/d.classifiable*100}%">${v/d.classifiable>.11?v:''}</span>`:'').join('')}</div><em>n = ${d.classifiable}</em></div>`}).join('');
+
+  const organs={
+    'Lung':['35 included reports · 22/29 classifiable comparisons favorable','The largest normal-tissue evidence domain, spanning fibrosis, inflammation, structural and functional endpoints. Findings are favorable overall but not uniform.'],
+    'Breast/mammary tumor':['18 breast/mammary reports · 8/8 clean in-vivo tumor comparisons preserved/comparable','The in-vivo breast tumor evidence consistently preserved/comparable tumor response in the eight classifiable matched comparisons; this is not a formal equivalence analysis.'],
+    'Thoracic skin':['4 reports · 4/4 classifiable comparisons favorable','The formal denominator is intentionally restricted to thoracic, hemithoracic, breast, chest-wall, or overlying thoracic skin.'],
+    'Heart/cardiac':['3 reports · 3/3 classifiable comparisons favorable','Encouraging functional and remodeling findings, but the evidence base remains small.'],
+    'Thoracic immune/hematologic':['7 reports · 4/7 favorable','Immune and hematologic outcomes were heterogeneous: four favorable, one mixed, one neutral, and one unfavorable.'],
+    'Planning/dosimetry':['4 reports · descriptive/technical evidence','Breast-specific planning and dosimetry reports demonstrate delivery feasibility but do not enter a biological direction-of-effect denominator.']
+  };
+  let chosen='Lung';
+  function pick(name){if(!organs[name])return;chosen=name;$('#dashOrganTitle').textContent=name;$('#dashOrganSummary').textContent=organs[name][0];$('#dashOrganDescription').textContent=organs[name][1];$('#dashOrganExplore').textContent=`Explore ${name.toLowerCase()} records →`;$$('[data-dash-domain]').forEach(b=>b.classList.toggle('selected',b.dataset.dashDomain===name))}
+  $$('[data-dash-domain]').forEach(b=>{b.addEventListener('click',()=>pick(b.dataset.dashDomain));b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(b.dataset.dashDomain)}})});
+  $('#dashOrganExplore').addEventListener('click',()=>{$('#domainFilter').value=chosen;applyFilters();activateTab('explorer',true);window.scrollTo({top:0,behavior:'smooth'})});
+  pick('Lung');
+  const open=$('#openDashboard'); if(open) open.addEventListener('click',()=>{activateTab('dashboard',true);window.scrollTo({top:0,behavior:'smooth'})});
+}
+
 function renderDirection(){
   $('#directionMatrix').innerHTML=summary.evidenceDepth.filter(d=>d.classifiable>0).map(d=>{
     const den=d.classifiable;return `<div class="dir-row"><div><div class="dir-name">${esc(d.domain)}</div><div class="dir-n">${den} classifiable comparison${den===1?'':'s'}</div></div><div><strong>${d.favorable}/${den}</strong> favorable</div><div class="stack" title="Favorable ${d.favorable}; mixed ${d.mixed}; neutral ${d.neutral}; unfavorable ${d.unfavorable}"><span class="seg-fav" style="width:${d.favorable/den*100}%"></span><span class="seg-mix" style="width:${d.mixed/den*100}%"></span><span class="seg-neu" style="width:${d.neutral/den*100}%"></span><span class="seg-unf" style="width:${d.unfavorable/den*100}%"></span></div><div class="dir-ci">95% Wilson CI<br>${d.wilson}</div></div>`
@@ -119,5 +151,5 @@ function setupGlobal(){
   $('#citationSearch').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();renderCitations(studies.filter(s=>!q||[s.citation,s.study,s.doi,s.year].join(' ').toLowerCase().includes(q)))});
   $('#copyResourceCitation').addEventListener('click',()=>copyText($('#resourceCitation').innerText,'Resource citation copied'));
 }
-renderHero();renderMetrics();renderOverview();initFilters();renderDirection();renderCitations();renderMethods();renderResourceCitation();setupTabs();setupGlobal();
+renderHero();renderMetrics();renderOverview();initFilters();renderDashboard();renderDirection();renderCitations();renderMethods();renderResourceCitation();setupTabs();setupGlobal();
 })();

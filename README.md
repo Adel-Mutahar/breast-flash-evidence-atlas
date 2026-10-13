@@ -54,3 +54,8 @@ Create a GitHub release (`v1.0`) containing the final dataset and, after manuscr
 - `MANUSCRIPT_LINK_TEXT.md` — manuscript-ready wording
 - `REPOSITORY_NAME.txt` — recommended repository/URL pattern
 - `.nojekyll` — GitHub Pages static-site compatibility
+
+
+## Version 1.0 final interface
+
+The final Version 1.0 combines the verified 58-report manuscript-aligned evidence ledger with a graph-rich Research Dashboard. The dashboard adds publication activity, modality composition, comparator strata, the breast-tumor evidence pathway, normal-tissue direction, and a clickable thoracic-organ explorer. The Study Explorer, Evidence Map, Citation Hub, Methods & Denominators, downloadable CSV, and Supplementary Material E2 remain the authoritative navigation and data layers.
